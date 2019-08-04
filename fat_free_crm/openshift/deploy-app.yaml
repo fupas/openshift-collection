@@ -1,0 +1,171 @@
+apiVersion: v1
+items:
+
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      description: Defines how to deploy the application server
+      template.alpha.openshift.io/wait-for-ready: 'true'
+    name: fatfreecrm
+    labels:
+      app: fatfreecrm
+  spec:
+    replicas: 1
+    selector:
+      name: fatfreecrm
+    strategy:
+      type: Recreate
+      recreateParams:
+        pre:
+          execNewPod:
+            command:
+              - migrate-database
+            containerName: fatfreecrm
+          failurePolicy: Ignore
+      
+    template:
+      metadata:
+        name: fatfreecrm
+        labels:
+          name: fatfreecrm
+          app: fatfreecrm
+      spec:
+        containers:
+          - env:
+              # app
+              - name: APPLICATION_HOSTNAME
+                value: 'www.example.com'
+              - name: DOMAIN_NAME
+                value: 'example.com'
+              # database, user etc
+              - name: DATABASE_SERVICE_NAME
+                value: 'postgresql'
+              - name: DATABASE_NAME
+                valueFrom:
+                  secretKeyRef:
+                    key: database-name
+                    name: fatfreecrm-secrets
+              - name: DATABASE_USER
+                valueFrom:
+                  secretKeyRef:
+                    key: database-user
+                    name: fatfreecrm-secrets
+              - name: DATABASE_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    key: database-password
+                    name: fatfreecrm-secrets
+              # db connection parameters
+              - name: MAX_CONNECTIONS
+                value: '50'
+              - name: POSTGRESQL_SHARED_BUFFERS
+                value: '12MB'
+              # smtp
+              - name: SMTP_PROVIDER_HOST
+                valueFrom:
+                  secretKeyRef:
+                    key: smtp-provider-host
+                    name: fatfreecrm-secrets
+              - name: SMTP_PROVIDER_DOMAIN
+                valueFrom:
+                  secretKeyRef:
+                    key: smtp-provider-domain
+                    name: fatfreecrm-secrets
+              - name: SMTP_PROVIDER_USERNAME
+                valueFrom:
+                  secretKeyRef:
+                    key: smtp-provider-username
+                    name: fatfreecrm-secrets
+              - name: SMTP_PROVIDER_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    key: smtp-provider-password
+                    name: fatfreecrm-secrets
+              # rails
+              - name: RAILS_ENV
+                value: 'production'
+              - name: RAILS_LOG_LEVEL
+                value: 'warn'
+              - name: SECRET_KEY_BASE
+                valueFrom:
+                  secretKeyRef:
+                    key: keybase
+                    name: fatfreecrm-secrets
+              - name: REQUIRE_RAILS_MASTER_KEY
+                value: 'false'
+              - name: RAILS_MASTER_KEY
+                valueFrom:
+                  secretKeyRef:
+                    key: rails-master-key
+                    name: fatfreecrm-secrets
+              - name: RAILS_SERVE_STATIC_FILES
+                value: 'true'
+              - name: RAILS_ENFORCE_SSL
+                value: 'false'
+            
+            image: ''
+            name: fatfreecrm
+            ports:
+              - containerPort: 8080
+
+            #livenessProbe:
+            #  httpGet:
+            #    path: /status/alive
+            #    port: 8080
+            #  initialDelaySeconds: 60
+            #  timeoutSeconds: 3
+            
+            #readinessProbe:
+            #  httpGet:
+            #    path: /status/ready
+            #    port: 8080
+            #  initialDelaySeconds: 30
+            #  timeoutSeconds: 5
+            
+            resources:
+              limits:
+                memory: '512Mi'
+
+    triggers:
+      - type: ConfigChange
+      - imageChangeParams:
+          automatic: true
+          containerNames:
+            - fatfreecrm
+          from:
+            kind: ImageStreamTag
+            name: 'fatfreecrm:latest'
+        type: ImageChange
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      description: Exposes and load balances the application pods
+      service.alpha.openshift.io/dependencies: '[{"name": "${DATABASE_SERVICE_NAME}", "kind": "Service"}]'
+    name: fatfreecrm
+    labels:
+      app: fatfreecrm
+  spec:
+    ports:
+      - name: web
+        port: 8080
+        targetPort: 8080
+    selector:
+      name: fatfreecrm
+
+- apiVersion: v1
+  kind: Route
+  metadata:
+    name: www
+    labels:
+      app: fatfreecrm
+  spec:
+    #host: 'www.example.com'
+    to:
+      kind: Service
+      name: fatfreecrm
+      
+kind: List
+metadata: []

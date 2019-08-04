@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: List
+items:
+
+- kind: ImageStream
+  apiVersion: 'v1'
+  metadata:
+    annotations:
+      description: Fat Free CRM
+      tags: ruby, rails
+    labels:
+      app: fatfreecrm
+    name: fatfreecrm
+
+- kind: BuildConfig
+  apiVersion: 'v1'
+  metadata:
+    labels:
+      app: fatfreecrm
+    name: fatfreecrm
+  spec:
+    successfulBuildsHistoryLimit: 2
+    failedBuildsHistoryLimit: 1
+    runPolicy: 'Serial' 
+    
+    triggers:
+    - github:
+        secret: fatfreecrm
+      type: GitHub
+    - generic:
+        secret: fatfreecrm
+      type: Generic
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+      
+    source:
+      git:
+        uri: https://github.com/fatfreecrm/fat_free_crm.git
+        ref: '0.18.x'
+      type: Git
+    
+    strategy:
+      sourceStrategy:
+        env:
+          # database, user etc
+          - name: DATABASE_SERVICE_NAME
+            value: 'postgresql'
+          - name: DATABASE_NAME
+            valueFrom:
+              secretKeyRef:
+                key: database-name
+                name: fatfreecrm-secrets
+          - name: DATABASE_USER
+            valueFrom:
+              secretKeyRef:
+                key: database-user
+                name: fatfreecrm-secrets
+          - name: DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-password
+                name: fatfreecrm-secrets
+          # rails
+          - name: SECRET_KEY_BASE
+            valueFrom:
+              secretKeyRef:
+                key: keybase
+                name: fatfreecrm-secrets
+          - name: REQUIRE_RAILS_MASTER_KEY
+            value: 'false'
+          - name: RAILS_MASTER_KEY
+            valueFrom:
+              secretKeyRef:
+                key: rails-master-key
+                name: fatfreecrm-secrets
+          - name: WEBPACKER
+            value: 'none'
+          - name: EXTRA_GEMS
+            value: 'rdoc'
+        from:
+          kind: ImageStreamTag
+          namespace: openshift
+          name: 'ubi8-rails:6.0'
+          
+      type: Source
+        
+    output:
+      to:
+        kind: ImageStreamTag
+        name: 'fatfreecrm:latest'
