@@ -37,7 +37,7 @@ items:
     source:
       git:
         uri: https://github.com/fatfreecrm/fat_free_crm.git
-        ref: '0.18.x'
+        ref: '0.18.1'
       type: Git
     
     strategy:
@@ -81,7 +81,7 @@ items:
         from:
           kind: ImageStreamTag
           namespace: openshift
-          name: 'ubi8-rails:6.0'
+          name: 'ubi8-rails:6.0.0'
           
       type: Source
         
