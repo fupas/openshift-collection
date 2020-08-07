@@ -20,13 +20,14 @@ oc create -f openshift/deploy-app.yaml -n <your_project>
 Once the app is running, log-into the pod and run the setup task:
 
 ```bash
-rake ffcrm:setup
+bundle exec rake ffcrm:setup
 ```
 
 or 
 
 ```bash
-rake db:migrate && rake ffcrm:setup:admin USERNAME=admin PASSWORD=password EMAIL=admin@example.com
+bundle exec rake db:migrate
+bundle exec rake ffcrm:setup:admin USERNAME=admin PASSWORD=password EMAIL=admin@example.com
 ```
 
 ## Version

@@ -87,6 +87,8 @@ items:
                 value: 'production'
               - name: RAILS_LOG_LEVEL
                 value: 'warn'
+              - name: PUMA_DISABLED
+                value: 'yes'
               - name: SECRET_KEY_BASE
                 valueFrom:
                   secretKeyRef:
@@ -168,4 +170,3 @@ items:
       name: fatfreecrm
       
 kind: List
-metadata: []
