@@ -1,4 +1,4 @@
-# Fat Free CRM
+# fatfreecrm/fat_free_crm
 
 An open source, Ruby on Rails customer relationship management platform (CRM).
 

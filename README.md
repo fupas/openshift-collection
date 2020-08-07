@@ -6,5 +6,27 @@ A lot of OSS projects already provide either docker containers, docker-compose s
 
 ## Supported Applications
 
-* [Fat Free CRM](https://github.com/fatfreecrm/fat_free_crm). An open source, Ruby on Rails customer relationship management platform (CRM).
+* [https://github.com/fatfreecrm/fat_free_crm](https://github.com/fatfreecrm/fat_free_crm). An open source, Ruby on Rails customer relationship management platform (CRM).
+* [https://github.com/snibox/snibox](https://github.com/snibox/snibox). Snibox is a self-hosted snippet manager.
 
+## Planned
+
+* [https://github.com/feedbin/feedbin](https://github.com/feedbin/feedbin)
+* [https://github.com/helpyio/helpy](https://github.com/helpyio/helpy)
+* [https://github.com/lobsters/lobsters](https://github.com/lobsters/lobsters)
+* [https://github.com/riggraz/astuto](https://github.com/riggraz/astuto)
+
+## Candidates
+
+* [https://github.com/spree/spree](https://github.com/spree/spree)
+* [https://github.com/diaspora/diaspora](https://github.com/diaspora/diaspora)
+* [https://github.com/tootsuite/mastodon](https://github.com/tootsuite/mastodon)
+* [https://github.com/loomio/loomio](https://github.com/loomio/loomio)
+* [https://github.com/errbit/errbit](https://github.com/errbit/errbit)
+* [https://github.com/getsentry/sentry](https://github.com/getsentry/sentry)
+* [https://github.com/maccman/monocle](https://github.com/maccman/monocle)
+* [https://github.com/instructure/canvas-lms](https://github.com/instructure/canvas-lms)
+* [https://github.com/otwcode/otwarchive](https://github.com/otwcode/otwarchive)
+* [https://github.com/octobox/octobox](https://github.com/octobox/octobox) -> OCP deployment
+* [https://github.com/documentcloud/documentcloud](https://github.com/documentcloud/documentcloud)
+* [https://github.com/cloud66/igor-bot](https://github.com/cloud66/igor-bot)

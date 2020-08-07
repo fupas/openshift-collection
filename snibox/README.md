@@ -1,6 +1,10 @@
-# openshift-snibox
+# snibox/snibox
 
-[Self-hosted snippet manager](https://github.com/snibox/snibox) on OpenShift
+Snibox is a self-hosted snippet manager. Developed to collect and organize code snippets. Supports various programming languages, markdown, plain text.
+
+## Repository
+
+[https://github.com/snibox/snibox](https://github.com/snibox/snibox)
 
 ## Quick Setup
 
@@ -17,3 +21,9 @@ oc create -f build-app.yaml -n <your_project>
 oc create -f deploy-postgresql.yaml -n <your_project>
 oc create -f deploy-app.yaml -n <your_project>
 ```
+
+## Versions
+
+* Ruby 2.6
+* RAILS 5.2.x
+* Postgres 10
