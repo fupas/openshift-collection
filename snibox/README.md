@@ -10,9 +10,10 @@ Deploy the app:
 
 ```bash
 oc new-project <your_project>
-oc create -f openshift/secrets.yaml -n <your_project>
-oc create -f openshift/pv.yaml -n <your_project>
-oc create -f openshift/build-app.yaml -n <your_project>
-oc create -f openshift/deploy-postgresql.yaml -n <your_project>
-oc create -f openshift/deploy-app.yaml -n <your_project>
+
+oc create -f secrets.yaml -n <your_project>
+oc create -f pv.yaml -n <your_project>
+oc create -f build-app.yaml -n <your_project>
+oc create -f deploy-postgresql.yaml -n <your_project>
+oc create -f deploy-app.yaml -n <your_project>
 ```

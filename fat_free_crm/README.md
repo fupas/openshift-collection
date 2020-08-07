@@ -1,6 +1,10 @@
-# openshift-ffcrm
+# Fat Free CRM
 
-[Fat Free CRM](https://github.com/fatfreecrm/fat_free_crm) on OpenShift
+An open source, Ruby on Rails customer relationship management platform (CRM).
+
+## Repository
+
+[https://github.com/fatfreecrm/fat_free_crm](https://github.com/fatfreecrm/fat_free_crm)
 
 ## Quick Setup
 
@@ -10,6 +14,7 @@ Deploy the app:
 
 ```bash
 oc new-project <your_project>
+
 oc create -f openshift/secrets.yaml -n <your_project>
 oc create -f openshift/pv.yaml -n <your_project>
 oc create -f openshift/build-app.yaml -n <your_project>
@@ -30,8 +35,9 @@ bundle exec rake db:migrate
 bundle exec rake ffcrm:setup:admin USERNAME=admin PASSWORD=password EMAIL=admin@example.com
 ```
 
-## Version
+### Versions
 
-* Ruby 2.5
+* Ruby 2.6
+* RAILS 5.2.x
 * Postgres 10
-* Fat Free CRM 0.18.x
+* Fat Free CRM 0.18.1
