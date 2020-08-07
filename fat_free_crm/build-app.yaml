@@ -79,7 +79,7 @@ items:
               value: "rdoc"
           from:
             kind: ImageStreamTag
-            name: "ubi8-rails:6.0.0"
+            name: "fupas-rails:2.6"
 
         type: Source
 
